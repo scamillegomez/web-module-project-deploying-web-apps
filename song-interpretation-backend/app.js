@@ -15,22 +15,22 @@ const client = new MongoClient(uri, {
 
 // adding middleware to parse the JSON request bodies
 app.use(express.json());
-// Enable CORS for all routes and origins
-// const corsOptions = {
-//     origin: 'https://web-module-project-deploying-web-apps-o5e0ltvu2.vercel.app',
-//     optionsSuccessStatus: 200
-// };
-
+//Enable CORS for all routes and origins
 const corsOptions = {
-    origin: function (origin, callback) {
-      if (!origin || /vercel\.app$/.test(origin)) { // This regex checks if the origin ends with 'vercel.app'
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: 'https://web-module-project-deploying-web-apps-53qo437xz.vercel.app',
     optionsSuccessStatus: 200
-  };
+};
+
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//       if (!origin || /vercel\.app$/.test(origin)) { // This regex checks if the origin ends with 'vercel.app'
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     optionsSuccessStatus: 200
+//   };
   
   app.use(cors(corsOptions));
 
