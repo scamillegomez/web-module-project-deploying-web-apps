@@ -16,9 +16,12 @@ const client = new MongoClient(uri, {
 // adding middleware to parse the JSON request bodies
 app.use(express.json());
 // Enable CORS for all routes and origins
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000'
-}));
+const corsOptions = {
+    origin: 'https://web-module-project-deploying-web-apps-o5e0ltvu2.vercel.app',
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
     res.send('Song Interpretation App');
