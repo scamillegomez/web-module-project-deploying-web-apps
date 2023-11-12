@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('MongoDB URI:',process.env.MONGODB_URI);
 const express = require('express');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
@@ -28,6 +29,9 @@ async function startServer() {
     try {
         await client.connect();
         console.log('Connected to MongoDB');
+
+        await client.db("SongInterpretation").command({ping:1});
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
         const songCollection = client.db("SongInterpretation").collection("Songs");
         const commentCollection = client.db("SongInterpretation").collection("Comments");
