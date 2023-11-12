@@ -20,7 +20,7 @@ const CommentAddForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(commentItem);
-    axios.post(`http://localhost:3001/songs/${id}/comments`, commentItem)
+    axios.post(`${process.env.REACT_APP_API_URL}/songs/${id}/comments`, commentItem)
       .then(res => {
         console.log(res);
         setComments(prevComments=> [...prevComments, res.data]);

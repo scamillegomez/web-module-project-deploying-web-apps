@@ -23,7 +23,7 @@ const SongAddForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(songItem);
-    axios.post(`http://localhost:3001/songs`, songItem)
+    axios.post(`${process.env.REACT_APP_API_URL}/songs`, songItem)
       .then(res => {
         console.log(res);
         setSongs(prevSongs=> [...prevSongs, res.data]);

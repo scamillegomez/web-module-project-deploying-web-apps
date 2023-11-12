@@ -10,7 +10,7 @@ const App = (props) => {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/songs')
+    axios.get(`${process.env.REACT_APP_API_URL}/songs`)
       .then(res => {
         console.log(res);
         setSongs(res.data);

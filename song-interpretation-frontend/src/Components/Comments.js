@@ -8,7 +8,7 @@ const Comments = (props) => {
     const [ comments, setComments ] = useState([]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:3001/songs/${id}/comments`)
+        axios.get(`${process.env.REACT_APP_API_URL}/songs/${id}/comments`)
             .then(res=>{
                 console.log(res.data);
                 setComments(res.data);
