@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -28,9 +29,16 @@ app.get('/songs', async (req, res) => {
     }
 });
 
-mongoose.connect('mongodb://localhost:27017/SongInterpretations')
+// connection string for local instance of MongoDB
+
+// mongoose.connect('mongodb://localhost:27017/SongInterpretations')
+//     .then(() => console.log('Connected to MongoDB...'))
+//     .catch(err => console.error('Could not connect to MondoDB...', err));
+
+// switched to a cloud version of MongoDB (atlas) on 11/12 and updating the connection string accordingly
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.error('Could not connect to MondoDB...', err));
+    .catch(err => console.error('Could not connect to MongoDB...', err));
 
 // route for retrieving a specific song by ID
 app.get('/songs/:id',(req,res)=>{
