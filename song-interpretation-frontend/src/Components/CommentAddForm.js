@@ -21,35 +21,40 @@ const CommentAddForm = (props) => {
     e.preventDefault();
     console.log(commentItem);
     axios.post(`${process.env.REACT_APP_API_URL}/songs/${id}/comments`, commentItem)
+    //axios.post(`http://localhost:3001/songs/${id}/comments`, commentItem)
       .then(res => {
-        console.log(res);
+        console.log("New comment response:",res.data);
         setComments(prevComments=> [...prevComments, res.data]);
       })
       .catch(err => {
-        console.log(err);
+        console.error('Error posting comment:', err);
       })
   }
 
   const { comment, username } = commentItem;
 
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text"
-                name="comment"
-                value={comment}
-                placeholder="enter comment here"
-                onChange={handleChange}
-            />
-            <input 
+    <div className='comment-form-container'>
+        <form onSubmit={handleSubmit} className='comment-form'>
+          {/* <div className="comment-form"> */}
+            <input
                 type="text" 
                 name="username"
                 value={username}
                 placeholder="username"
                 onChange={handleChange}
-            />
-            <button>Submit</button>
+                className="comment-form-element name"
+              />
+            <textarea
+                type="text"
+                name="comment"
+                value={comment}
+                placeholder="enter comment here"
+                onChange={handleChange}
+              className="comment-form-element">
+            </textarea>
+            <button className="comment-form-element button">SUBMIT</button>
+            {/* </div> */}
         </form>
     </div>
   );

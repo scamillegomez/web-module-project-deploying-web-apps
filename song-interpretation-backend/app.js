@@ -88,10 +88,11 @@ async function startServer() {
                     artist: req.body.artist
                 };
                 const result = await songCollection.insertOne(newSong);
-                res.status(201).json(result.ops[0]);
+                const addedSong = { _id: result.insertedId, ...newSong };
+                res.status(201).json(addedSong);
             } catch (err) {
                 console.error('Error posting song:', err);
-                res.status(500).send('Error posting song');
+                res.status(500).send(`Error posting song, ${err.message}`);
             }
         });
 
@@ -117,7 +118,11 @@ async function startServer() {
                     timestamp: new Date()
                 };
                 const result = await commentCollection.insertOne(newComment);
-                res.status(201).json(result.ops[0]);
+                const createdComment = {
+                    _id: result.insertedId,
+                    ...newComment
+                };
+                res.status(201).json(createdComment);
             } catch (err) {
                 console.error('Error posting comment:', err);
                 res.status(500).send('Error posting comment');

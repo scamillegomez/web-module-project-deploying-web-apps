@@ -4,6 +4,9 @@ import SongsList from './Components/SongsList';
 import { BrowserRouter, NavLink, Route, Routes, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import SongAddForm from './Components/SongAddForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMusic } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const App = (props) => {
@@ -11,6 +14,7 @@ const App = (props) => {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/songs`)
+    //axios.get(`http://localhost:3001/songs`)
       .then(res => {
         console.log(res);
         setSongs(res.data);
@@ -23,13 +27,17 @@ const App = (props) => {
   return (
     <div className="App">
       {/* < SongsList songs={songs} /> */}
-      
-        <h1>Song Interpretations</h1>
-        <nav>
-          <NavLink id="main" to="/">Interpret</NavLink>
-          <NavLink id="addSongLink" to="/add-song">Add Songs</NavLink>
-        </nav>
-      
+        <div className='app-header'>
+          <div className='app-header-top'>
+            <FontAwesomeIcon icon={faMusic} className="music-icon-one" />
+            <h1 className='app-header-text'>SONG INTERPRETATIONS</h1>
+            <FontAwesomeIcon icon={faMusic} className="music-icon-two" />
+          </div>
+          <nav>
+            <NavLink className="nav-link" id="main" to="/">Interpret</NavLink>
+            <NavLink className="nav-link" id="addSongLink" to="/add-song">Add Songs</NavLink>
+          </nav>
+        </div>
       <Routes>
         <Route path="songs" element={< SongsList songs={songs} />}/>
         <Route path="/" element={<Navigate  to="/songs"/>}/>

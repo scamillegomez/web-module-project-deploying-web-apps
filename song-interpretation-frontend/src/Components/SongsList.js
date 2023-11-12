@@ -7,12 +7,10 @@ const SongsList = (props) => {
     const { songs } = props;
 
     return(
-        <div>
+        <div className='song-list'>
         {songs.map(song => {
         return (
-          <div>
             <Song id={song._id} song={song} />
-          </div>
           );
       })
       }
