@@ -1,11 +1,16 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const cors = require('cors');
+
 const app = express();
 const port = process.env.PORT || 3001;
-const Song = require('./models/song');
-const Comment = require('./models/comment');
-const cors = require('cors');
+
+// MongoDB URI and Client setup
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, {
+    serverApi: ServerApiVersion.v1
+});
 
 // adding middleware to parse the JSON request bodies
 app.use(express.json());
@@ -19,9 +24,27 @@ app.get('/', (req,res)=> {
     res.send('Song Interpretation App');
 });
 
+// connect to MongoDB
+async function connectToMongoDB() {
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+    } catch(err) {
+        console.error('Could not connect to MongoDB:', err);
+    }
+}
+connectToMongoDB();
+
+const songCollection = client.db("SongInterpretation").collection("Songs");
+const commentCollection = client.db("SongInterpretation").collection("Comments");
+
+// const Song = require('./models/song');
+// const Comment = require('./models/comment');
+
+
 app.get('/songs', async (req, res) => {
     try {
-        const songs = await Song.find();
+        const songs = await songCollection.find().toArray();
         res.json(songs);
     } catch (err) {
         console.error('Error retrieving songs', err);
@@ -30,21 +53,28 @@ app.get('/songs', async (req, res) => {
 });
 
 // connection string for local instance of MongoDB
-
 // mongoose.connect('mongodb://localhost:27017/SongInterpretations')
 //     .then(() => console.log('Connected to MongoDB...'))
 //     .catch(err => console.error('Could not connect to MondoDB...', err));
-
 // switched to a cloud version of MongoDB (atlas) on 11/12 and updating the connection string accordingly
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.error('Could not connect to MongoDB...', err));
+// mongoose.connect(process.env.MONGODB_URI)
+//     .then(() => console.log('Connected to MongoDB...'))
+//     .catch(err => console.error('Could not connect to MongoDB...', err));
 
 // route for retrieving a specific song by ID
-app.get('/songs/:id',(req,res)=>{
-    const songId = req.params.id;
-    // logic to getch a specific song using songId
-    res.send(`Details of song ${songId}`);
+app.get('/songs/:id', async (req,res)=>{
+    try {
+        const songId = new ObjectId(req.params.id);
+        const song = await songCollection.findOne({_id: songId});
+        if(!song){
+            res.status(404).send('Song not found');
+        } else {
+            res.json(song);
+        }
+    } catch(err) {
+        console.error('Error retrieving song:', err);
+        res.status(500).send('Error retrieving song');
+    }
 });
 
 // route for adding a new song
@@ -54,8 +84,8 @@ app.post('/songs', async (req,res)=> {
             title: req.body.title,
             artist: req.body.artist
         });
-        const savedSong = await newSong.save();
-        res.status(201).json(savedSong);
+        const result = await songCollection.insertOne(newSong);
+        res.status(201).json(result.ops[0]);
     } catch (err) {
         console.error('Error posting song:', err);
         res.status(500).send('Error posting song');
@@ -63,21 +93,22 @@ app.post('/songs', async (req,res)=> {
 });
 
 // route for retrieving all comments (testing only)
-app.get('/comments', async (req,res)=> {
-    try {
-        const comments = await Comment.find();
-        res.json(comments);
-    } catch (err) {
-        console.error('Error retrieving comments:', err);
-        res.status(500).send('Error retrieving comments');
-    }
-});
+// app.get('/comments', async (req,res)=> {
+//     try {
+//         const comments = await Comment.find();
+//         res.json(comments);
+//     } catch (err) {
+//         console.error('Error retrieving comments:', err);
+//         res.status(500).send('Error retrieving comments');
+//     }
+// });
 
 
 // route for retrieving comments for a specific song
 app.get('/songs/:id/comments', async (req,res)=> {
     try {
-        const comments = await Comment.find({songId: req.params.id});
+        const songId = new ObjectId(req.params.id);
+        const comments = await commentCollection.find({songId: songId }).toArray();
         res.json(comments);
     } catch (err) {
         console.error('Error retrieving comments:', err);
@@ -88,14 +119,14 @@ app.get('/songs/:id/comments', async (req,res)=> {
 // route for posting comments to a specific song
 app.post('/songs/:id/comments', async (req,res)=> {
     try {
-        const newComment = new Comment({
-            songId: req.params.id,
+        const newComment = {
+            songId: new ObjectId(req.params.id),
             username: req.body.username,
             comment: req.body.comment,
             timestamp: new Date()
-        });
-        const savedComment = await newComment.save();
-        res.status(201).json(savedComment);
+        };
+        const result = await commentCollection.insertOne(newComment);
+        res.status(201).json(result.ops[0]);
     } catch (err) {
         console.error('Error posting comment:', err);
         res.status(500).send('Error posting comment');
