@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Enable CORS for all routes and origins
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000'
 }));
 
 app.get('/', (req,res)=> {
