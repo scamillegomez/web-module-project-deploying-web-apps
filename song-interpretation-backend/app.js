@@ -23,7 +23,8 @@ app.use(express.json());
 
 const corsOptions = {
     origin: function (origin, callback) {
-      if (!origin || /vercel\.app$/.test(origin)) { // This regex checks if the origin ends with 'vercel.app'
+      // Check if the origin is either a Vercel app subdomain or localhost:3000
+      if (!origin || /vercel\.app$/.test(origin) || origin === 'http://localhost:3000') {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -33,6 +34,7 @@ const corsOptions = {
   };
   
   app.use(cors(corsOptions));
+  
 
 app.use(cors(corsOptions));
 
