@@ -724,5 +724,8 @@ nav {
   .song-item-header-text {
     width: 92%;
   }
-  
+  .song-item-header-text h3 {
+    margin-left: 1.5%;
+    margin-right: 2%; /* Pushes h3 to the left */
+  }
 }
