@@ -5,12 +5,13 @@ import Song from './Song';
 
 const SongsList = (props) => {
     const { songs } = props;
+    const sortedSongs = songs.sort((a, b) => (a._id < b._id ? -1 : 1));
 
     return(
         <div className='song-list'>
-        {songs.map(song => {
+        {sortedSongs.map(song => {
         return (
-            <Song id={song._id} song={song} />
+            <Song key={song._id} id={song._id} song={song} />
           );
       })
       }
