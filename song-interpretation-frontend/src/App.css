@@ -495,9 +495,14 @@ table {
 
   .comment-form-element{
     font-size: 0.9rem;
-    width: 97%;
-    align-self: flex-start;
+    max-width: 97%;
+    align-self: center;
     border: 1px solid grey;
     border-radius: 0.4rem;
   }
+
+  .button{
+    width: 97%;
+  }
+  
 }
