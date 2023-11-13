@@ -16,22 +16,22 @@ const client = new MongoClient(uri, {
 // adding middleware to parse the JSON request bodies
 app.use(express.json());
 //Enable CORS for all routes and origins
-// const corsOptions = {
-//     origin: 'https://web-module-project-deploying-web-apps-53qo437xz.vercel.app',
-//     optionsSuccessStatus: 200
-// };
-
 const corsOptions = {
-    origin: function (origin, callback) {
-      // Check if the origin is either a Vercel app subdomain or localhost:3000
-      if (!origin || /vercel\.app$/.test(origin) || origin === 'http://localhost:3000') {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: 'https://web-module-project-deploying-web-apps-eight-wine.vercel.app',
     optionsSuccessStatus: 200
-  };
+};
+
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//       // Check if the origin is either a Vercel app subdomain or localhost:3000
+//       if (!origin || /vercel\.app$/.test(origin) || origin === 'http://localhost:3000') {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     optionsSuccessStatus: 200
+//   };
   
   app.use(cors(corsOptions));
   
