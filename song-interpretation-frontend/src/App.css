@@ -653,6 +653,56 @@ nav {
   background-color: #5591cc;
 }
 
+/* Song Add Form Styles */
+.song-add-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.song-add-form {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(204, 169, 221, 0.5);
+  padding: 20px;
+  width: 60%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.song-add-element {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  font-size: 1em;
+}
+
+.song-add-element.button {
+  background-color: #66a6ff;
+  color: white;
+  cursor: pointer;
+  border: none;
+  padding: 10px 15px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.song-add-element.button:hover {
+  background-color: #5591cc;
+}
+
+@media (max-width: 768px) {
+  .song-add-form {
+    width: 95%; /* Adjust width for smaller screens */
+  }
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .song-item {
