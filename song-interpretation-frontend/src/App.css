@@ -662,7 +662,7 @@ nav {
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(204, 169, 221, 0.5);
   padding: 20px;
-  width: 60%;
+  width: 70%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
@@ -673,7 +673,7 @@ nav {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
-  width: 100%;
+  width: 95%;
   font-size: 1em;
 }
 
@@ -690,13 +690,6 @@ nav {
 .song-add-element.button:hover {
   background-color: #5591cc;
 }
-
-@media (max-width: 768px) {
-  .song-add-form {
-    width: 95%; /* Adjust width for smaller screens */
-  }
-}
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -728,4 +721,16 @@ nav {
     margin-left: 1.5%;
     margin-right: 2%; /* Pushes h3 to the left */
   }
+
+  .song-add-container{
+    width: 95%;
+  }
+  .song-add-form {
+    width: 95%; /* Adjust width for smaller screens */
+  }
+
+  .song-add-element{
+    width: 93%;
+  }
+
 }
