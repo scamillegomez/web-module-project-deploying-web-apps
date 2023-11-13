@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const initialCommentState = {
+  comment: "",
+  username: "",
+}
+
 const CommentAddForm = (props) => {
 
   const { setComments, id } = props;
-  const [commentItem, setCommentItem] = useState({
-    comment: "",
-    username: "",
-  });
+  const [commentItem, setCommentItem] = useState(initialCommentState);
 
   const handleChange = (e) => {
     setCommentItem({
@@ -25,6 +27,7 @@ const CommentAddForm = (props) => {
       .then(res => {
         console.log("New comment response:",res.data);
         setComments(prevComments=> [...prevComments, res.data]);
+        setCommentItem(initialCommentState);
       })
       .catch(err => {
         console.error('Error posting comment:', err);
