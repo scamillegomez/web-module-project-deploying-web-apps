@@ -597,11 +597,6 @@ nav {
   margin-left: auto; /* Pushes h5 to the right */
 }
 
-@media (max-width: 768px) {
-  .song-item {
-    width: 95%; /* Full width on smaller screens */
-  }
-}
 /* Comments Section */
 .comments-section {
   margin-top: 10px;
@@ -726,6 +721,8 @@ nav {
   .music-icon-one, .music-icon-two {
     display: none;
   }
-
+  .song-item-header-text {
+    width: 92%;
+  }
   
 }
